@@ -48,6 +48,12 @@ userSchema.virtual('password')
 .set(function(password){
     this.hash_password = bcrypt.hashSync(password, 10);//from the doc_of_bcrypt// here : salt = 10
 });
+
+// for signin
+userSchema.virtual('fullName')
+.get(function(){
+    return `${this.firstName} ${this.lastName}`;
+});
 ////create methods
 userSchema.methods = {
     authenticate: function(password){

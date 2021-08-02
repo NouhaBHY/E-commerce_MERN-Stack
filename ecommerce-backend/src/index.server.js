@@ -4,6 +4,8 @@ const app = express();        //create app
 //const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');//routes
+const adminRoutes = require('./routes/admin/auth');//routes
+
 env.config(); //envirnmrnt variable === constants
 //mongodb connection
 //mongodb+srv://nouha:<password>@cluster0.7s184.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
@@ -31,7 +33,9 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-app.use('/api/signup', authRoutes);
+app.use('/api', authRoutes);
+app.use('/api', adminRoutes);
+
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
 });  
