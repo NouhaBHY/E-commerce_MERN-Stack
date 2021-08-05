@@ -1,5 +1,5 @@
 const express = require('express');
-const { signup, signin, requireSignin } = require('../../controller/admin/auth');//automatiquement importer
+const { signup, signin } = require('../../controller/admin/auth');//automatiquement importer
 const { validateSignupRequest, isRequestValidated, validateSigninRequest } = require('../../validators/auth');
 const router = express.Router();
 

@@ -47,8 +47,8 @@ exports.signin = (req, res) => {
 
             if (user.authenticate(req.body.password) && user.role ===  'admin'){//function in our model compare password
                 //if return true
-                 //create token
-                const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, { expiresIn: '1h' });
+                 //create token with _id AND role
+                const token = jwt.sign({_id: user._id, role: user.role}, process.env.JWT_SECRET, { expiresIn: '1h' });
                 const { _id, firstName, lastName, email, role, fullName } = user;
                 res.status(200).json({
                     token,
@@ -66,13 +66,5 @@ exports.signin = (req, res) => {
         }
     });
 }
-exports.requireSignin = (req, res, next) => {
-    //extract the token == element num 1 of array (bearer token)
-    const token = req.headers.authorization.split(" ")[1];
-    //decode the code   // get the token in req
-    const user = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = user; //attach user with req
-    next();
-    //jwt.decode()
-}
+
 
