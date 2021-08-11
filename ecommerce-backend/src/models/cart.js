@@ -1,0 +1,15 @@
+const mongoose = require('mongoose');
+const cartSchema = new mongoose.Schema({
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+                //user who will by something             ref : is a foreign key
+    cartItems: [// tableaux des produits choisies par user : froeign key
+        {
+            product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true},
+            quantity: { type: Number, default: 1},
+            price: { type: Number, required: true }
+        }
+    ]
+}, { timestamps: true});
+
+
+module.exports = mongoose.model('Cart', cartSchema);

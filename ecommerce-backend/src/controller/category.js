@@ -1,5 +1,7 @@
 const Category = require('../models/category');
 const slugify =require('slugify');
+const shortId =require('shortid');
+const env = require('dotenv');
 
 
 function createCategories(categories, parentId = null){
@@ -20,7 +22,7 @@ function createCategories(categories, parentId = null){
     }
     return categoryList;
 };
-
+/*
 exports.addCategory = (req, res) => {
     const categoryObj = {
         name: req.body.name,
@@ -37,7 +39,36 @@ exports.addCategory = (req, res) => {
             }
         });
     
-}
+}*/
+
+exports.addCategory = (req, res) => {
+
+    /*
+    const categoryObj = {
+        name: req.body.name,
+        //slug: slugify(req.body.name)
+   
+    }*/
+    const categoryObj = {
+        name: req.body.name,
+        slug: slugify(req.body.name)//`${slugify(req.body.name)}-${shortid.generate()}`,
+       
+    }
+    if(req.file){ //if this exist, then extract the image
+        categoryObj.categoryImage = process.env.API + "/public/" + req.file.filename;  
+    }
+    if(req.body.parentId){
+        categoryObj.parentId = req.body.parentId;
+    }
+    const cat = new Category(categoryObj);
+    cat.save((error, category) => {
+        if(error) return res.status(400).json({ error});
+        if(category){
+            return res.status(201).json({ category });
+        }
+    });
+    
+} 
 
 //FETCH category
 exports.getCategories = (req, res) => {
