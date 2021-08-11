@@ -23,13 +23,6 @@ function createCategories(categories, parentId = null){
     return categoryList;
 };
 exports.addCategory = (req, res) => {
-
-    /*
-    const categoryObj = {
-        name: req.body.name,
-        //slug: slugify(req.body.name)
-   
-    }*/
     const categoryObj = {
         name: req.body.name,
         slug: slugify(req.body.name)//`${slugify(req.body.name)}-${shortid.generate()}`,
